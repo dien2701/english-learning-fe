@@ -1,0 +1,22 @@
+.welcome-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: #f4f8fc;
+}
+
+.welcome-card {
+  width: 100%;
+  max-width: 680px;
+  border-radius: 16px;
+  box-shadow: 0 12px 32px rgba(30, 80, 120, 0.12);
+}
+
+.eyebrow {
+  margin-bottom: 12px;
+  color: #1677ff;
+  font-size: 16px;
+  font-weight: 700;
+}
