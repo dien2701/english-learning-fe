@@ -2,8 +2,31 @@
   box-sizing: border-box;
 }
 
+:root {
+  --primary-color: #008FD5;
+  --bg-color: #F7F9FF;
+  --surface-color: #FFFFFF;
+  --border-color: #DFE3E9;
+  --text-primary: #181C20;
+  --text-secondary: #3F4850;
+}
+
 body {
   margin: 0;
   min-width: 320px;
-  font-family: Inter, Arial, sans-serif;
+  font-family: Inter, "Segoe UI", system-ui, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+}
+
+#root {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
 }
