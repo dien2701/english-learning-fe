@@ -1,20 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+
 * {
   box-sizing: border-box;
 }
 
 :root {
   --primary-color: #008FD5;
+  --primary-dark: #007BB8;
+  --primary-light: #E6F4FA;
   --bg-color: #F7F9FF;
   --surface-color: #FFFFFF;
-  --border-color: #DFE3E9;
-  --text-primary: #181C20;
-  --text-secondary: #3F4850;
+  --border-color: #E5E8EE;
+  --text-primary: #1E293B;
+  --text-secondary: #64748B;
+  --success-color: #16A34A;
+  --warning-color: #F59E0B;
+  --error-color: #DC2626;
 }
 
 body {
   margin: 0;
   min-width: 320px;
-  font-family: Inter, "Segoe UI", system-ui, sans-serif;
+  font-family: 'Inter', "Segoe UI", system-ui, sans-serif;
   background-color: var(--bg-color);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
@@ -30,3 +38,24 @@ h1, h2, h3, h4, h5, h6, p {
   padding: 0;
   text-align: left;
 }
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Chart bar hover effects */
+.chart-bar-group:hover .bar-fill {
+  background-color: #008FD5 !important;
+}
+
+.chart-bar-group:hover .bar-label {
+  opacity: 1 !important;
+}
+
+.chart-bar-group.peak .bar-label {
+  opacity: 1 !important;
+}
+

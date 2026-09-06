@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, ConfigProvider } from 'antd';
+import { ConfigProvider } from 'antd';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Sidebar from './components/layout/Sidebar';
 import Header from './components/layout/Header';
@@ -67,99 +67,96 @@ import ForbiddenPage from './pages/system/ForbiddenPage';
 import NotFoundPage from './pages/system/NotFoundPage';
 import ServerErrorPage from './pages/system/ServerErrorPage';
 
-const { Sider, Content } = Layout;
+/**
+ * UserLayout — matches the Stitch design exactly:
+ * - Fixed sidebar 256px on the left
+ * - Main area (margin-left: 256px) with sticky header + scrollable content
+ */
+const UserLayout: React.FC = () => (
+  <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#F7F9FF' }}>
+    {/* Fixed Sidebar */}
+    <Sidebar />
 
-const DashboardLayout: React.FC<{ children?: React.ReactNode }> = ({ children }) => (
-  <Layout className="app-layout">
-    <Sider 
-      width={256} 
-      theme="light" 
-      style={{ 
-        borderRight: '1px solid var(--border-color)',
-        position: 'fixed',
-        height: '100vh',
-        left: 0,
-        top: 0,
-        bottom: 0,
-        zIndex: 20
+    {/* Main content area */}
+    <div
+      style={{
+        marginLeft: 256,
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
       }}
-      breakpoint="lg"
-      collapsedWidth="0"
     >
-      <Sidebar />
-    </Sider>
-    
-    <Layout style={{ marginLeft: 256, background: 'var(--bg-color)', minHeight: '100vh' }}>
-      <div style={{ position: 'sticky', top: 0, zIndex: 10 }}>
-        <Header />
+      {/* Sticky Header */}
+      <Header />
+
+      {/* Page Content */}
+      <div style={{ flex: 1 }}>
+        <Routes>
+          <Route path="/dashboard" element={<DashboardPage />} />
+
+          {/* Flashcard */}
+          <Route path="/flashcard" element={<FlashcardTopicsPage />} />
+          <Route path="/flashcard/:id" element={<FlashcardDetailPage />} />
+          <Route path="/flashcard/:id/study" element={<FlashcardStudyPage />} />
+          <Route path="/flashcard/:id/result" element={<FlashcardResultPage />} />
+
+          {/* Writing */}
+          <Route path="/writing" element={<WritingListPage />} />
+          <Route path="/writing/:id" element={<WritingPracticePage />} />
+          <Route path="/writing/:id/result" element={<WritingResultPage />} />
+          <Route path="/writing/history" element={<WritingHistoryPage />} />
+
+          {/* Listening */}
+          <Route path="/listening" element={<ListeningListPage />} />
+          <Route path="/listening/:id" element={<ListeningPracticePage />} />
+          <Route path="/listening/:id/result" element={<ListeningResultPage />} />
+
+          {/* Exam */}
+          <Route path="/exam" element={<ExamListPage />} />
+          <Route path="/exam/:id" element={<ExamPracticePage />} />
+          <Route path="/exam/:id/result" element={<ExamResultPage />} />
+          <Route path="/exam/history" element={<ExamHistoryPage />} />
+
+          {/* Statistics & Recommendation */}
+          <Route path="/statistics" element={<StatisticsPage />} />
+          <Route path="/recommendation" element={<RecommendationPage />} />
+
+          {/* Chat & Notification */}
+          <Route path="/chat" element={<ChatListPage />} />
+          <Route path="/chat/:id" element={<ChatRoomPage />} />
+          <Route path="/notifications" element={<NotificationCenterPage />} />
+
+          {/* Profile */}
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile/edit" element={<EditProfilePage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+
+          {/* Admin Routes */}
+          <Route path="/admin">
+            <Route index element={<AdminDashboardPage />} />
+            <Route path="users" element={<ManageUsersPage />} />
+            <Route path="users/:id" element={<UserDetailPage />} />
+            <Route path="topics" element={<ManageTopicsPage />} />
+            <Route path="flashcards" element={<ManageFlashcardsPage />} />
+            <Route path="writing" element={<ManageWritingPage />} />
+            <Route path="listening" element={<ManageListeningPage />} />
+            <Route path="exams" element={<ManageExamsPage />} />
+            <Route path="notifications" element={<ManageNotificationsPage />} />
+          </Route>
+
+          {/* Default redirect */}
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+
+          {/* Fallback */}
+          <Route path="*" element={<Navigate to="/404" replace />} />
+        </Routes>
       </div>
-      
-      <Content>
-        {children || (
-          <Routes>
-            <Route path="/dashboard" element={<DashboardPage />} />
-            
-            {/* Flashcard */}
-            <Route path="/flashcard" element={<FlashcardTopicsPage />} />
-            <Route path="/flashcard/:id" element={<FlashcardDetailPage />} />
-            <Route path="/flashcard/:id/study" element={<FlashcardStudyPage />} />
-            <Route path="/flashcard/:id/result" element={<FlashcardResultPage />} />
-            
-            {/* Writing */}
-            <Route path="/writing" element={<WritingListPage />} />
-            <Route path="/writing/:id" element={<WritingPracticePage />} />
-            <Route path="/writing/:id/result" element={<WritingResultPage />} />
-            <Route path="/writing/history" element={<WritingHistoryPage />} />
-            
-            {/* Listening */}
-            <Route path="/listening" element={<ListeningListPage />} />
-            <Route path="/listening/:id" element={<ListeningPracticePage />} />
-            <Route path="/listening/:id/result" element={<ListeningResultPage />} />
-            
-            {/* Exam */}
-            <Route path="/exam" element={<ExamListPage />} />
-            <Route path="/exam/:id" element={<ExamPracticePage />} />
-            <Route path="/exam/:id/result" element={<ExamResultPage />} />
-            <Route path="/exam/history" element={<ExamHistoryPage />} />
-            
-            {/* Statistics & Recommendation */}
-            <Route path="/statistics" element={<StatisticsPage />} />
-            <Route path="/recommendation" element={<RecommendationPage />} />
-            
-            {/* Chat & Notification */}
-            <Route path="/chat" element={<ChatListPage />} />
-            <Route path="/chat/:id" element={<ChatRoomPage />} />
-            <Route path="/notifications" element={<NotificationCenterPage />} />
-            
-            {/* Profile */}
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/profile/edit" element={<EditProfilePage />} />
-            <Route path="/settings" element={<SettingsPage />} />
-            
-            {/* Admin Routes */}
-            <Route path="/admin">
-              <Route index element={<AdminDashboardPage />} />
-              <Route path="users" element={<ManageUsersPage />} />
-              <Route path="users/:id" element={<UserDetailPage />} />
-              <Route path="topics" element={<ManageTopicsPage />} />
-              <Route path="flashcards" element={<ManageFlashcardsPage />} />
-              <Route path="writing" element={<ManageWritingPage />} />
-              <Route path="listening" element={<ManageListeningPage />} />
-              <Route path="exams" element={<ManageExamsPage />} />
-              <Route path="notifications" element={<ManageNotificationsPage />} />
-            </Route>
-
-            {/* Default redirect for root */}
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
-
-            {/* Fallback */}
-            <Route path="*" element={<Navigate to="/404" replace />} />
-          </Routes>
-        )}
-      </Content>
-    </Layout>
-  </Layout>
+    </div>
+  </div>
 );
+
+
 
 const App: React.FC = () => {
   return (
@@ -181,8 +178,9 @@ const App: React.FC = () => {
           
           {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>
-            <Route path="/*" element={<DashboardLayout />} />
+            <Route path="/*" element={<UserLayout />} />
           </Route>
+
         </Routes>
       </AuthProvider>
     </ConfigProvider>
