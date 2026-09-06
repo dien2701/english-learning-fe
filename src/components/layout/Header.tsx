@@ -1,11 +1,31 @@
 import React from 'react';
-import { Input, Badge, Avatar, Typography, Breadcrumb } from 'antd';
-import { SearchOutlined, BellOutlined } from '@ant-design/icons';
+import { Input, Badge, Avatar, Typography, Breadcrumb, Dropdown, type MenuProps } from 'antd';
+import { SearchOutlined, BellOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { mockUser } from '../../mock/dashboardData';
+import { useAuth } from '../../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const { Text } = Typography;
 
 const Header: React.FC = () => {
+  const { logout, user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
+  const items: MenuProps['items'] = [
+    {
+      key: '1',
+      label: 'Đăng xuất',
+      icon: <LogoutOutlined />,
+      onClick: handleLogout,
+      danger: true,
+    }
+  ];
+
   return (
     <div className="header">
       <Breadcrumb
@@ -28,7 +48,12 @@ const Header: React.FC = () => {
           </div>
         </Badge>
         
-        <Avatar src={mockUser.avatar} style={{ marginLeft: 8, cursor: 'pointer', border: '1px solid var(--border-color)' }} />
+        <Dropdown menu={{ items }} placement="bottomRight" arrow>
+          <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', gap: 8, marginLeft: 8 }}>
+            <Avatar src={mockUser.avatar} icon={!mockUser.avatar && <UserOutlined />} style={{ border: '1px solid var(--border-color)' }} />
+            <Text strong style={{ display: 'none' }}>{user?.fullName || 'User'}</Text>
+          </div>
+        </Dropdown>
       </div>
     </div>
   );
