@@ -12,7 +12,7 @@
 
   * **Sidebar [DUMB]**: *(Shared UI)* Hiển thị menu Dashboard, Flashcard, Writing, Listening, Exam, Statistics, Recommendation, Chat, Profile.
 
-    * **MenuItem [DUMB]**: *(Shared UI)* Hiển thị từng mục và trạng thái `isActive`.
+    * **MenuItem [DUMB]**: *(Shared UI)* Hiển thị từng mục và trạng thái `isActive`. Sidebar có thể thu gọn về bên trái nhưng vẫn hiển thị icon các chức năng.
 
   * **MobileDrawer [DUMB]**: *(Shared UI)* Sidebar dạng Drawer trên mobile/tablet.
 

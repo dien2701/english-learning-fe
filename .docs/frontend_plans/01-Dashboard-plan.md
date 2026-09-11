@@ -4,7 +4,7 @@
 
 * **DashboardPage [SMART]**: Điều phối dữ liệu Dashboard sau đăng nhập: bài đang học, nội dung hoàn thành và thống kê học gần đây. Dashboard chỉ giữ thông tin tổng quan; phân tích chuyên sâu thuộc `/statistics`.
 
-  * **HeroBanner [DUMB]**: Hiển thị lời chào “En-Learning trợ lý ngoại ngữ của bạn!” và thông tin định hướng học tập ngắn.
+  * **HeroBanner [DUMB]**: Là một hình ảnh
 
   * **ContinueLearningSection [SMART]**: Lấy bài học gần nhất chưa hoàn thành.
 
