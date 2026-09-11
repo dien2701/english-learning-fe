@@ -1,41 +1,51 @@
 ### 1. PHÂN RÃ COMPONENT (COMPONENT TREE)
 
-- **MasterLayout [SMART]**: Component bọc ngoài cùng cho các trang yêu cầu đăng nhập. Chứa Layout chính, xử lý fetch thông tin người dùng ban đầu nếu chưa có.
-  - **Header [SMART]**: Thanh điều hướng trên cùng, cố định (sticky). Lấy dữ liệu user và thông báo từ Global State.
-    - **Logo [DUMB]**: *(Shared UI)* Nhận src ảnh/text để hiển thị logo và liên kết về trang chủ.
-    - **NotificationIcon [DUMB]**: Nhận số lượng thông báo (`unreadCount`) và callback `onClick`.
-    - **UserDropdown [DUMB]**: Nhận thông tin user (avatar, tên) và các hàm callback (Đăng xuất, Chuyển trang).
-  - **Sidebar [DUMB]**: Thanh menu điều hướng bên trái. Nhận mảng danh sách các mục menu và đường dẫn hiện tại để highlight.
-    - **MenuItem [DUMB]**: Nhận icon, label, trạng thái `isActive`.
-  - **MainContent [DUMB]**: Vùng chứa nội dung trang con (render qua `<Outlet />` của React Router).
-  - **GlobalFooter [DUMB]**: Chân trang, có thể nhận danh sách cột link hoặc render tĩnh.
-    - **FooterColumn [DUMB]**: Nhận tiêu đề cột và danh sách các link.
+* **MasterLayout [SMART]**: Layout chính cho khu vực người học sau đăng nhập. Quản lý Header, Sidebar, nội dung và Footer.
+
+  * **Header [SMART]**: Lấy thông tin user và số thông báo chưa đọc.
+
+    * **Logo [DUMB]**: *(Shared UI)* Logo En-Learning, click về Dashboard.
+
+    * **NotificationIcon [DUMB]**: Hiển thị số thông báo chưa đọc.
+
+    * **UserDropdown [DUMB]**: Hiển thị Hồ sơ, chuyển đổi nền sáng tối, chuyển đổi ngôn ngữ giữa tiếng việt và tiếng anh, Đăng xuất.
+
+  * **Sidebar [DUMB]**: *(Shared UI)* Hiển thị menu Dashboard, Flashcard, Writing, Listening, Exam, Statistics, Recommendation, Chat, Profile.
+
+    * **MenuItem [DUMB]**: *(Shared UI)* Hiển thị từng mục và trạng thái `isActive`.
+
+  * **MobileDrawer [DUMB]**: *(Shared UI)* Sidebar dạng Drawer trên mobile/tablet.
+
+  * **MainContent [DUMB]**: Render nội dung trang qua `<Outlet />`.
+
+  * **GlobalFooter [DUMB]**: Hiển thị thương hiệu, chính sách và hỗ trợ.
+
+    * **FooterColumn [DUMB]**: *(Shared UI)* Hiển thị từng nhóm liên kết.
 
 ### 2. QUẢN LÝ TRẠNG THÁI (STATE MANAGEMENT)
 
-- **Các State cần thiết và Chiến lược lưu trữ:**
-  - `currentUser` (Thông tin người dùng đang đăng nhập): **Global State** (Redux Toolkit / RTK Query). Cần dùng chung ở Header và các trang bên trong.
-  - `unreadNotificationCount` (Số lượng thông báo chưa đọc): **Global State** (RTK Query polling hoặc kết hợp WebSockets/RabbitMQ theo kiến trúc backend).
-  - `isSidebarOpen` (Trạng thái ẩn/hiện Sidebar trên Mobile): **Local State** (`useState` trong `MasterLayout`).
-  - `isUserDropdownOpen` (Trạng thái mở menu ở Avatar): **Local State** (`useState` trong `Header`).
-  - `currentPath` (Đường dẫn hiện tại để bôi đậm mục trong Sidebar): **Router State** (Lấy trực tiếp từ `useLocation()` của React Router, không cần lưu vào State thủ công).
+* `currentUser`: **Global State** (`Zustand`) — dùng cho Header, Profile và phân quyền.
+
+* `unreadNotificationCount`: **Server State** (`TanStack Query`) — đồng bộ số thông báo chưa đọc.
+
+* `isSidebarCollapsed`: **Local/Global UI State** — trạng thái thu gọn Sidebar desktop.
+
+* `isMobileSidebarOpen`: **Local State** (`useState`) — mở/đóng Drawer mobile.
+
+* `isUserDropdownOpen`: **Local State** (`useState`) — mở/đóng menu tài khoản.
+
+* `currentPath`: **Router State** (`useLocation()` / `NavLink`) — xác định menu đang active.
+
+* Master Layout **không cần URL Query Parameters**. Search, filter, page sẽ được xử lý riêng tại từng chức năng.
 
 ### 3. CẤU TRÚC DỮ LIỆU (DATA INTERFACES)
 
 ```typescript
-// Cấu trúc dữ liệu dùng chung
 interface UserProfile {
   id: string;
   name: string;
   avatarUrl: string | null;
   role: 'USER' | 'ADMIN';
-}
-
-// Props cho các Dumb Component
-interface LogoProps {
-  src?: string;
-  altText: string;
-  homeUrl: string;
 }
 
 interface NotificationIconProps {
@@ -45,8 +55,8 @@ interface NotificationIconProps {
 
 interface UserDropdownProps {
   user: UserProfile;
-  onNavigateProfile: () => void;
-  onNavigateSettings: () => void;
+  onProfile: () => void;
+  onSettings: () => void;
   onLogout: () => void;
 }
 
@@ -60,14 +70,13 @@ interface MenuItemData {
 interface SidebarProps {
   items: MenuItemData[];
   currentPath: string;
-  isMobileOpen: boolean;
-  onCloseMobile: () => void;
+  isCollapsed: boolean;
+  onToggle: () => void;
 }
 
 interface MenuItemProps {
   item: MenuItemData;
   isActive: boolean;
-  onClick?: () => void;
 }
 
 interface FooterLink {

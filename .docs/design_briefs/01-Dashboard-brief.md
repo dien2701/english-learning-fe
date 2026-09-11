@@ -1,70 +1,322 @@
-1. HỆ THỐNG LƯỚI & BỐ CỤC (LAYOUT SYSTEM):
-- Cấu trúc Root: Bố cục Flexbox toàn màn hình `flex min-h-screen bg-slate-50`.
-- Layout chính: 
-  + Sidebar (Desktop): `w-64 flex-shrink-0 hidden md:flex flex-col`.
-  + Content Area: `flex-1 flex flex-col`.
-  + Container nội dung: `max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8`.
-- Grid/Flexbox cho các Section chính:
-  + Header nội dung: `flex items-center justify-between mb-8`.
-  + Main Grid (chứa các Card): `grid grid-cols-1 lg:grid-cols-3 gap-6`.
-  + Cột trái (Chứa Continue Learning, Actions, Progress): `lg:col-span-2 flex flex-col gap-6`.
-  + Cột phải (Chứa Recommendations, Activities): `lg:col-span-1 flex flex-col gap-6`.
+# 01-Dashboard-idea-brief
 
-2. ĐẶC TẢ COMPONENT (COMPONENT SPECS):
-- DashboardLayout:
-  + Box Style: `min-h-screen bg-slate-50`.
-- WelcomeHeader:
-  + Typography: Lời chào `text-2xl font-bold tracking-tight text-slate-900`, Mục tiêu/Thông tin phụ `text-sm text-slate-500`.
-- ContinueLearningCard:
-  + Box Style: `bg-white rounded-xl shadow-sm border border-slate-200 p-6`.
-  + Typography: Tiêu đề bài học `text-lg font-semibold text-slate-900`, Thông tin tiến độ `text-sm text-slate-500`.
-  + Trạng thái tương tác: `hover:shadow-md transition-all`. Nút "Tiếp tục học": `bg-blue-600 text-white hover:bg-blue-700 transition-colors rounded-lg px-4 py-2 font-medium shadow-sm hover:shadow`.
-- QuickActions & ActionButton:
-  + Cấu trúc lưới: `grid grid-cols-2 sm:grid-cols-4 gap-4`.
-  + Box Style (ActionButton): `bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex flex-col items-center justify-center gap-3`.
-  + Typography: `text-sm font-medium text-slate-700`.
-  + Trạng thái tương tác: `hover:-translate-y-1 hover:shadow-md hover:border-blue-300 hover:text-blue-600 transition-all cursor-pointer`.
-- LearningProgressChart:
-  + Box Style: `bg-white rounded-xl shadow-sm border border-slate-200 p-6`.
-  + Typography: Tiêu đề card `text-lg font-semibold text-slate-900`, Các con số thống kê `text-2xl font-bold text-slate-900`.
-- Recommendations & RecommendationItem:
-  + Box Style (Card tổng): `bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-4`.
-  + Box Style (Item): `flex items-start gap-3 p-3 rounded-lg bg-slate-50 border border-slate-100`.
-  + Typography: Tiêu đề gợi ý `text-sm font-medium text-slate-900`, Mô tả hành động `text-xs font-semibold text-blue-600`.
-  + Trạng thái tương tác: `hover:bg-blue-50 hover:border-blue-200 transition-colors cursor-pointer`.
-- RecentActivities & ActivityItem:
-  + Box Style (Card tổng): `bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-4`.
-  + Box Style (Item): `flex items-center justify-between py-3 border-b border-slate-100 last:border-0`.
-  + Typography: Tên hoạt động `text-sm font-medium text-slate-800`, Thời gian `text-xs text-slate-400`.
+**### 1. HỆ THỐNG LƯỚI & BỐ CỤC (LAYOUT SYSTEM)**
 
-3. RÀNG BUỘC MÀU SẮC (COLOR CONSTRAINTS):
-- Nền trang (Background): `bg-slate-50`.
-- Nền Card (Surface): `bg-white`.
-- Viền (Border): `border-slate-200`.
-- Chữ chính (Primary Text): `text-slate-900`.
-- Chữ phụ (Secondary Text): `text-slate-500` hoặc `text-slate-400`.
-- Nút CTA và Điểm nhấn (Primary Brand): `bg-blue-600` / `text-blue-600`.
-- Trạng thái hoàn thành/Thành công (Success): `text-green-600` / `bg-green-50`.
+* **Root Layout:** `min-h-screen bg-slate-50 text-slate-900`.
 
-4. MOCK DATA (DỮ LIỆU HIỂN THỊ):
-- WelcomeHeader: 
-  + Lời chào: "Chào buổi sáng, Tiến Dũng!"
-  + Mục tiêu: "Mục tiêu hôm nay: Học 20 từ mới"
-  + Chuỗi ngày học: "🔥 5 ngày liên tiếp"
-- ContinueLearningCard:
-  + Tên bài học: "TOEIC Listening - Part 2: Question & Response"
-  + Tiến độ: "Đã hoàn thành 65%"
-  + Lần học cuối: "Học lần cuối: 2 giờ trước"
-- QuickActions: 
-  + Nút 1: "Học Flashcard"
-  + Nút 2: "Luyện viết AI"
-  + Nút 3: "Luyện nghe"
-  + Nút 4: "Làm bài test"
-- LearningProgressChart: 
-  + Thống kê nhanh: "120 từ đã học", "3 bài viết đã nộp", "Điểm trung bình: 8.5"
-- Recommendations: 
-  + Gợi ý 1: "Bạn cần ôn lại 12 từ Flashcard chưa nhớ" (Hành động: Ôn tập ngay)
-  + Gợi ý 2: "Hãy luyện thêm chủ đề câu điều kiện loại 2" (Hành động: Luyện tập)
-- RecentActivities:
-  + Hoạt động 1: "Hoàn thành bài kiểm tra Reading (8.0/9.0)" - Thời gian: "25 phút trước"
-  + Hoạt động 2: "Nộp bài viết Task 1 - Line Chart" - Thời gian: "Hôm qua"
+* **Dashboard Container:** `w-full max-w-7xl mx-auto px-4 py-6 md:px-6 md:py-8 lg:px-8`.
+
+* **Dashboard Stack:** `flex flex-col gap-6 md:gap-8`.
+
+* **Hero Section:** `w-full`.
+
+* **Continue Learning Section:** `w-full`.
+
+* **Completed Learning Section:** `w-full flex flex-col gap-4`.
+
+* **Completed Lesson List:** `grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4`.
+
+* **Learning Chart Section:** `w-full flex flex-col gap-4`.
+
+* **Chart Header:** `flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between`.
+
+* **Chart Container:** `w-full min-h-72 md:min-h-80`.
+
+* **Card Standard:** `bg-white border border-slate-200 rounded-xl shadow-sm p-4 md:p-6`.
+
+* **Section Spacing:** `space-y-4`.
+
+* **Mobile:** `grid-cols-1`, CTA chính `w-full`, nội dung ưu tiên theo thứ tự `Hero → Continue Learning → Completed → Chart`.
+
+* **Tablet:** `sm:grid-cols-2`, khoảng cách `gap-4 md:gap-6`.
+
+* **Desktop:** `max-w-7xl`, danh sách hoàn thành tối đa `lg:grid-cols-4`; không chia Dashboard thành nhiều cột báo cáo dày đặc.
+
+---
+
+**### 2. ĐẶC TẢ COMPONENT (COMPONENT SPECS)**
+
+* **HeroBanner [DUMB]**:
+
+  * Box Style: `w-full bg-white border border-slate-200 rounded-xl shadow-sm p-6 md:p-8`.
+
+  * Layout: `flex flex-col gap-3`.
+
+  * Typography Title: `text-2xl md:text-3xl font-bold tracking-tight text-slate-900`.
+
+  * Typography Description: `text-sm md:text-base text-slate-500 leading-relaxed`.
+
+  * Interaction: `transition-shadow hover:shadow-md`.
+
+* **ContinueLearningCard [DUMB]**:
+
+  * Box Style: `bg-white border border-slate-200 rounded-xl shadow-sm p-5 md:p-6`.
+
+  * Layout: `flex flex-col gap-5 md:flex-row md:items-center md:justify-between`.
+
+  * Typography Title: `text-lg md:text-xl font-semibold text-slate-900`.
+
+  * Typography Meta: `text-sm text-slate-500`.
+
+  * CTA: `h-10 px-5 rounded-lg bg-sky-600 text-white text-sm font-semibold`.
+
+  * Interaction CTA: `hover:bg-sky-700 active:bg-sky-800 disabled:bg-slate-300 disabled:cursor-not-allowed transition-colors`.
+
+  * Interaction Card: `hover:shadow-md transition-shadow`.
+
+* **ProgressBar [DUMB]**:
+
+  * Box Style: `w-full h-2 rounded-full bg-slate-100 overflow-hidden`.
+
+  * Progress Fill: `h-full rounded-full bg-sky-600 transition-all duration-300`.
+
+  * Typography Label: `text-xs font-medium text-slate-500`.
+
+  * State Completed: `bg-green-600`.
+
+* **CompletedLessonList [DUMB]**:
+
+  * Box Style: `grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4`.
+
+  * View More Button: `self-start text-sm font-semibold text-sky-600 rounded-lg px-3 py-2`.
+
+  * Interaction: `hover:bg-sky-50 hover:text-sky-700 active:bg-sky-100 transition-colors`.
+
+* **CompletedLessonCard [DUMB]**:
+
+  * Box Style: `bg-white border border-slate-200 rounded-xl shadow-sm p-4 flex flex-col gap-3`.
+
+  * Typography Title: `text-sm md:text-base font-semibold text-slate-900 line-clamp-2`.
+
+  * Typography Meta: `text-xs text-slate-500`.
+
+  * Interaction: `hover:border-slate-300 hover:shadow-md transition-all`.
+
+* **StatusTag [DUMB]**:
+
+  * Box Style: `inline-flex w-fit items-center gap-1.5 rounded-full bg-green-50 px-2.5 py-1`.
+
+  * Typography: `text-xs font-semibold text-green-700`.
+
+  * Completed State: `bg-green-50 text-green-700`.
+
+  * Interaction: `select-none`.
+
+* **PeriodSwitcher [DUMB]**:
+
+  * Box Style: `inline-flex rounded-lg bg-slate-100 p-1`.
+
+  * Item: `px-3 py-1.5 rounded-md text-sm font-medium`.
+
+  * Default: `text-slate-500 hover:text-slate-900`.
+
+  * Active: `bg-white text-sky-700 shadow-sm`.
+
+  * Disabled: `text-slate-300 cursor-not-allowed`.
+
+  * Interaction: `transition-colors cursor-pointer`.
+
+* **LearningTimeChart [DUMB]**:
+
+  * Box Style: `w-full bg-white border border-slate-200 rounded-xl shadow-sm p-4 md:p-6`.
+
+  * Chart Area: `w-full h-64 md:h-72`.
+
+  * Typography Axis: `text-xs text-slate-500`.
+
+  * Typography Tooltip: `text-xs font-medium text-slate-700`.
+
+  * Line / Main Data: `stroke-sky-600`.
+
+  * Grid Line: `stroke-slate-200`.
+
+  * Interaction: `cursor-crosshair`.
+
+* **DashboardEmptyState [DUMB]**:
+
+  * Box Style: `w-full bg-white border border-dashed border-slate-300 rounded-xl p-8 md:p-10`.
+
+  * Layout: `flex flex-col items-center justify-center text-center gap-4`.
+
+  * Typography Title: `text-lg font-semibold text-slate-900`.
+
+  * Typography Description: `max-w-md text-sm text-slate-500`.
+
+  * CTA: `h-10 px-5 rounded-lg bg-sky-600 text-white text-sm font-semibold`.
+
+  * Interaction CTA: `hover:bg-sky-700 active:bg-sky-800 transition-colors`.
+
+* **DashboardSkeleton [DUMB]**:
+
+  * Box Style: `bg-white border border-slate-200 rounded-xl p-5 md:p-6`.
+
+  * Skeleton Line: `h-4 rounded bg-slate-200 animate-pulse`.
+
+  * Skeleton Title: `h-6 w-1/3 rounded bg-slate-200 animate-pulse`.
+
+  * Skeleton Block: `h-40 rounded-lg bg-slate-100 animate-pulse`.
+
+  * Interaction: `pointer-events-none`.
+
+* **ErrorState [DUMB]**:
+
+  * Box Style: `w-full bg-white border border-red-200 rounded-xl p-6 md:p-8`.
+
+  * Layout: `flex flex-col items-center text-center gap-3`.
+
+  * Typography Title: `text-base font-semibold text-slate-900`.
+
+  * Typography Message: `text-sm text-slate-500`.
+
+  * Error Icon: `text-red-600`.
+
+  * Retry Button: `h-10 px-4 rounded-lg border border-slate-300 bg-white text-sm font-semibold text-slate-700`.
+
+  * Interaction: `hover:bg-slate-50 active:bg-slate-100 disabled:text-slate-300 disabled:cursor-not-allowed transition-colors`.
+
+---
+
+**### 3. RÀNG BUỘC MÀU SẮC (COLOR CONSTRAINTS)**
+
+* **Primary:** `bg-sky-600`, `text-sky-600`, `border-sky-600`.
+
+* **Primary Hover:** `bg-sky-700`, `text-sky-700`.
+
+* **Primary Active:** `bg-sky-800`.
+
+* **Primary Light:** `bg-sky-50`.
+
+* **Page Background:** `bg-slate-50`.
+
+* **Surface / Card:** `bg-white`.
+
+* **Border Default:** `border-slate-200`.
+
+* **Border Hover:** `border-slate-300`.
+
+* **Text Primary:** `text-slate-900`.
+
+* **Text Secondary:** `text-slate-500`.
+
+* **Text Muted:** `text-slate-400`.
+
+* **Success:** `text-green-600`, `text-green-700`, `bg-green-50`.
+
+* **Warning:** `text-amber-600`, `bg-amber-50`.
+
+* **Error:** `text-red-600`, `bg-red-50`, `border-red-200`.
+
+* **Disabled:** `bg-slate-300`, `text-slate-300`.
+
+* **Chart Primary Line:** `stroke-sky-600`.
+
+* **Chart Grid:** `stroke-slate-200`.
+
+* Không dùng `gradient`.
+
+* Không dùng `glassmorphism`, `backdrop-blur` hoặc nền trong suốt phức tạp.
+
+* Không dùng màu neon.
+
+* Không dùng quá nhiều màu trong biểu đồ; biểu đồ chính ưu tiên `sky-600`.
+
+* Trạng thái hoàn thành phải có icon/text đi kèm, không phụ thuộc duy nhất vào màu xanh lá.
+
+---
+
+**### 4. MOCK DATA (DỮ LIỆU HIỂN THỊ)**
+
+```javascript
+const mockHero = {
+  title: "En-Learning trợ lý ngoại ngữ của bạn!",
+  description: "Tiếp tục bài học gần nhất và duy trì tiến độ học tiếng Anh mỗi ngày."
+};
+
+const mockContinueLearning = {
+  id: "deck_001",
+  title: "300 từ vựng tiếng Anh giao tiếp cơ bản",
+  type: "FLASHCARD",
+  progressPercent: 68,
+  progressLabel: "68% hoàn thành",
+  lastStudiedAt: "Học gần nhất: Hôm nay, 09:20",
+  continuePath: "/flashcards/deck_001/study",
+  ctaLabel: "Tiếp tục học"
+};
+
+const mockCompletedLessons = [
+  {
+    id: "lesson_001",
+    title: "Từ vựng chủ đề Công việc",
+    type: "FLASHCARD",
+    completedAt: "Hoàn thành hôm nay",
+    status: "Đã hoàn thành"
+  },
+  {
+    id: "lesson_002",
+    title: "Viết email xin nghỉ phép",
+    type: "WRITING",
+    completedAt: "Hoàn thành hôm qua",
+    status: "Đã hoàn thành"
+  },
+  {
+    id: "lesson_003",
+    title: "Listening: Daily Conversation",
+    type: "LISTENING",
+    completedAt: "Hoàn thành 09/09/2026",
+    status: "Đã hoàn thành"
+  },
+  {
+    id: "lesson_004",
+    title: "Bài kiểm tra từ vựng A2",
+    type: "EXAM",
+    completedAt: "Hoàn thành 08/09/2026",
+    status: "Đã hoàn thành"
+  }
+];
+
+const mockWeekChart = [
+  { label: "T2", studyMinutes: 25 },
+  { label: "T3", studyMinutes: 40 },
+  { label: "T4", studyMinutes: 20 },
+  { label: "T5", studyMinutes: 55 },
+  { label: "T6", studyMinutes: 35 },
+  { label: "T7", studyMinutes: 65 },
+  { label: "CN", studyMinutes: 45 }
+];
+
+const mockMonthChart = [
+  { label: "Tuần 1", studyMinutes: 180 },
+  { label: "Tuần 2", studyMinutes: 245 },
+  { label: "Tuần 3", studyMinutes: 210 },
+  { label: "Tuần 4", studyMinutes: 295 }
+];
+
+const mockChart = {
+  title: "Thời gian học tập",
+  description: "Tổng thời gian bạn đã dành cho việc học tiếng Anh.",
+  period: "week",
+  periodOptions: [
+    { label: "Tuần", value: "week" },
+    { label: "Tháng", value: "month" }
+  ],
+  unit: "phút"
+};
+
+const mockEmptyState = {
+  title: "Bạn chưa có dữ liệu học tập",
+  description: "Bắt đầu một bài học để En-Learning ghi nhận tiến độ của bạn.",
+  actionLabel: "Bắt đầu học Flashcard"
+};
+
+const mockErrorState = {
+  title: "Không thể tải dữ liệu Dashboard",
+  message: "Đã xảy ra lỗi khi tải tiến độ học tập. Vui lòng thử lại.",
+  retryLabel: "Thử lại"
+};
+
+const mockSkeleton = {
+  continueLearning: true,
+  completedLessons: 4,
+  chart: true
+};
+```

@@ -1,112 +1,127 @@
-# KẾ HOẠCH KỸ THUẬT: MÀN HÌNH DASHBOARD
+# 01-Dashboard-plan
 
-## 1. PHÂN RÃ COMPONENT (COMPONENT TREE)
+**### 1. PHÂN RÃ COMPONENT (COMPONENT TREE)**
 
-```text
-Dashboard (Page) [SMART]
-├── DashboardLayout [DUMB] (Shared UI: Bố cục chính cho các trang có Sidebar & Header)
-│   ├── Sidebar [SMART] (Shared UI: Điều hướng chính, lấy active route)
-│   ├── Header [SMART] (Shared UI: Thanh tìm kiếm, chuông thông báo, avatar)
-│   └── DashboardContent [SMART] (Container gọi API tổng cho nội dung Dashboard)
-│       ├── WelcomeHeader [DUMB] (Hiển thị lời chào, mục tiêu, số ngày học liên tiếp)
-│       ├── ContinueLearningCard [DUMB] (Card nổi bật nhất, nút "Tiếp tục học")
-│       ├── QuickActions [DUMB] (Danh sách các thao tác học nhanh)
-│       │   └── ActionButton [DUMB] (Shared UI: Nút thao tác)
-│       ├── LearningProgressChart [DUMB] (Biểu đồ số phút học 7 ngày qua)
-│       ├── Recommendations [DUMB] (Danh sách gợi ý học tập)
-│       │   └── RecommendationItem [DUMB]
-│       └── RecentActivities [DUMB] (Lịch sử hoạt động gần đây)
-│           └── ActivityItem [DUMB]
-```
+* **DashboardPage [SMART]**: Điều phối dữ liệu Dashboard sau đăng nhập: bài đang học, nội dung hoàn thành và thống kê học gần đây. Dashboard chỉ giữ thông tin tổng quan; phân tích chuyên sâu thuộc `/statistics`.
 
-## 2. QUẢN LÝ TRẠNG THÁI (STATE MANAGEMENT)
+  * **HeroBanner [DUMB]**: Hiển thị lời chào “En-Learning trợ lý ngoại ngữ của bạn!” và thông tin định hướng học tập ngắn.
 
-**Local State (useState / useReducer):**
-- `isSidebarOpen`: Trạng thái đóng/mở Sidebar trên màn hình nhỏ.
-- `searchQuery`: Text đang gõ trong thanh tìm kiếm trên Header trước khi submit.
+  * **ContinueLearningSection [SMART]**: Lấy bài học gần nhất chưa hoàn thành.
 
-**Global State (Redux Toolkit / RTK Query):**
-- `auth`: Chứa token, thông tin cơ bản của User (Avatar, Tên, Roles) để hiển thị trên Header.
-- `dashboardApi`: Sử dụng RTK Query để fetch toàn bộ dữ liệu trang Dashboard (Tiến độ học, Gợi ý, Lịch sử) và cache tự động, cung cấp state `isLoading`, `isFetching`, `isError` mà không cần quản lý thủ công.
+    * **ContinueLearningCard [DUMB]**: Hiển thị tên bài, loại bài học, tiến độ, lần học gần nhất và CTA `Tiếp tục học`.
 
-**URL Query Parameters:**
-- Không khuyến khích đẩy nhiều State lên URL cho Dashboard mặc định trừ khi người dùng cần filter khoảng thời gian cho biểu đồ (VD: `?chartRange=7d`). Trong trường hợp này có thể sử dụng `chartRange` trên URL.
+    * **ProgressBar [DUMB]**: **(Shared UI)** Hiển thị phần trăm hoàn thành.
 
-## 3. CẤU TRÚC DỮ LIỆU (DATA INTERFACES)
+  * **CompletedLearningSection [SMART]**: Lấy danh sách nội dung đã hoàn thành gần đây.
+
+    * **CompletedLessonList [DUMB]**: Hiển thị danh sách ngang và nút `Xem chi tiết`.
+
+    * **CompletedLessonCard [DUMB]**: Hiển thị tên bài, loại nội dung và thời gian hoàn thành.
+
+    * **StatusTag [DUMB]**: **(Shared UI)** Hiển thị trạng thái `Đã hoàn thành`.
+
+  * **LearningChartSection [SMART]**: Lấy dữ liệu học theo khoảng thời gian và quản lý chế độ `week/month`.
+
+    * **PeriodSwitcher [DUMB]**: **(Shared UI)** Chuyển giữa `Tuần` và `Tháng`.
+
+    * **LearningTimeChart [DUMB]**: Hiển thị số phút học theo ngày/tuần.
+
+  * **DashboardEmptyState [DUMB]**: **(Shared UI)** Hiển thị khi chưa có dữ liệu học và CTA bắt đầu Flashcard.
+
+  * **DashboardSkeleton [DUMB]**: **(Shared UI)** Trạng thái loading.
+
+  * **ErrorState [DUMB]**: **(Shared UI)** Hiển thị lỗi và callback `Thử lại`.
+
+**### 2. QUẢN LÝ TRẠNG THÁI (STATE MANAGEMENT)**
+
+* `currentUser`: **Global State** (`Zustand`) — thông tin người dùng đăng nhập.
+
+* `continueLearning`: **Server State** (`TanStack Query`) — bài học gần nhất chưa hoàn thành.
+
+* `completedLessons`: **Server State** (`TanStack Query`) — các bài học đã hoàn thành gần đây.
+
+* `learningStats`: **Server State** (`TanStack Query`) — dữ liệu thời gian học phục vụ biểu đồ.
+
+* `chartPeriod`: **URL Query Parameter** (`?period=week|month`) — giữ chế độ biểu đồ khi reload/share URL.
+
+* `isLoading`, `isError`: **Server State** (`TanStack Query`) — không lưu riêng bằng `useState`.
+
+* `showAllCompleted`: **Local State** (`useState`) — mở rộng/thu gọn danh sách bài đã hoàn thành.
+
+* Không đưa dữ liệu Dashboard vào Zustand vì đây là **Server State**, tránh duplicate state và cache thủ công.
+
+**### 3. CẤU TRÚC DỮ LIỆU (DATA INTERFACES)**
 
 ```typescript
-// Data Models
-export interface UserProfile {
-  id: string;
-  fullName: string;
-  avatarUrl: string | null;
-  streakDays: number;
-  todayGoal: string;
-}
+type LearningType =
+  | 'FLASHCARD'
+  | 'WRITING'
+  | 'LISTENING'
+  | 'EXAM';
 
-export interface ContinueLearningData {
-  moduleId: string;
-  moduleName: string;
-  moduleType: 'FLASHCARD' | 'LISTENING' | 'WRITING' | 'EXAM';
-  progressPercentage: number;
-  lastLearnedAt: string; // ISO Date String
-}
+type ChartPeriod = 'week' | 'month';
 
-export interface QuickAction {
+interface ContinueLearningItem {
   id: string;
   title: string;
-  actionType: 'FLASHCARD' | 'WRITING' | 'LISTENING' | 'EXAM';
-  iconName: string;
-  href: string;
+  type: LearningType;
+  progressPercent: number;
+  lastStudiedAt: string;
+  continuePath: string;
 }
 
-export interface ProgressStat {
-  date: string; // ISO Date String
-  minutesLearned: number;
+interface ContinueLearningCardProps {
+  item: ContinueLearningItem;
+  onContinue: (path: string) => void;
 }
 
-export interface Recommendation {
+interface CompletedLesson {
   id: string;
+  title: string;
+  type: LearningType;
+  completedAt: string;
+}
+
+interface CompletedLessonCardProps {
+  lesson: CompletedLesson;
+}
+
+interface CompletedLessonListProps {
+  lessons: CompletedLesson[];
+  showAll: boolean;
+  onViewMore: () => void;
+}
+
+interface LearningChartPoint {
+  label: string;
+  studyMinutes: number;
+}
+
+interface LearningTimeChartProps {
+  data: LearningChartPoint[];
+  period: ChartPeriod;
+}
+
+interface PeriodSwitcherProps {
+  value: ChartPeriod;
+  onChange: (period: ChartPeriod) => void;
+}
+
+interface ProgressBarProps {
+  value: number;
+  max?: number;
+  label?: string;
+}
+
+interface DashboardEmptyStateProps {
+  title: string;
+  description: string;
+  actionLabel: string;
+  onAction: () => void;
+}
+
+interface ErrorStateProps {
   message: string;
-  ctaText: string;
-  actionUrl: string;
-  priority: 'HIGH' | 'NORMAL';
-}
-
-export interface RecentActivity {
-  id: string;
-  activityName: string;
-  timestamp: string; // ISO Date String
-  score: number | null;
-}
-
-// Component Props
-export interface WelcomeHeaderProps {
-  user: UserProfile;
-}
-
-export interface ContinueLearningCardProps {
-  data: ContinueLearningData | null;
-  onContinueClick: (moduleId: string, moduleType: string) => void;
-}
-
-export interface QuickActionsProps {
-  actions: QuickAction[];
-}
-
-export interface LearningProgressChartProps {
-  stats: ProgressStat[];
-  totalWordsLearned: number;
-  totalWritingsSubmitted: number;
-  latestScore: number | null;
-}
-
-export interface RecommendationsProps {
-  items: Recommendation[];
-  onActionClick: (url: string) => void;
-}
-
-export interface RecentActivitiesProps {
-  activities: RecentActivity[];
+  onRetry: () => void;
 }
 ```
