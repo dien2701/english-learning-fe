@@ -1,0 +1,44 @@
+{
+  "header": {
+    "language": "Ngôn ngữ",
+    "theme": "Chế độ giao diện",
+    "theme_light": "Sáng",
+    "theme_dark": "Tối",
+    "notifications": "Thông báo",
+    "mark_all_read": "Đánh dấu tất cả đã đọc",
+    "profile": "Thông tin cá nhân",
+    "logout": "Đăng xuất",
+    "student": "Học viên",
+    "official_student": "Học viên chính thức"
+  },
+  "sidebar": {
+    "learning_management": "Học tập & Quản lý",
+    "dashboard": "Dashboard",
+    "flashcard": "Flashcard",
+    "writing": "Luyện viết",
+    "listening": "Luyện nghe",
+    "exam": "Bài kiểm tra",
+    "statistics": "Thống kê",
+    "recommendation": "Gợi ý học tập",
+    "interaction_system": "Tương tác & Hệ thống",
+    "chat": "Chat",
+    "settings": "Hồ sơ & Cài đặt"
+  },
+  "dashboard": {
+    "welcome": "Chào mừng bạn trở lại",
+    "continue_learning": "Tiếp tục học",
+    "completed_learning": "Đã hoàn thành",
+    "learning_chart": "Thống kê học tập"
+  },
+  "footer": {
+    "description": "Nền tảng ứng dụng trí tuệ nhân tạo hỗ trợ tối ưu lộ trình và nâng cao năng lực tiếng Anh toàn diện cho người học.",
+    "support": "Hỗ trợ người học",
+    "policies": "Chính sách",
+    "privacy_policy": "Chính sách bảo mật",
+    "terms_of_use": "Điều khoản sử dụng",
+    "learning_rules": "Quy định học tập & chứng chỉ",
+    "contact": "Liên hệ",
+    "support_center": "Trung tâm hỗ trợ",
+    "send_feedback": "Gửi phản hồi"
+  }
+}

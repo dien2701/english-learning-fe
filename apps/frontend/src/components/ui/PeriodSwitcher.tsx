@@ -9,7 +9,7 @@ interface PeriodSwitcherProps {
 
 export const PeriodSwitcher: React.FC<PeriodSwitcherProps> = ({ value, onChange }) => {
   return (
-    <div className="flex items-center bg-slate-100 dark:bg-slate-700/60 p-1 rounded-lg w-fit">
+    <div className="flex items-center bg-slate-100 dark:bg-slate-700/60 p-1 rounded-lg w-fit text-black">
       <button 
         onClick={() => onChange('week')}
         className={`font-semibold text-xs px-3.5 py-1.5 rounded-md transition-all cursor-pointer ${

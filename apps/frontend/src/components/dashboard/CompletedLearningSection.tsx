@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const courses = [
   { id: 1, icon: 'work', title: 'Từ vựng chủ đề Công việc', time: 'Hoàn thành hôm nay', progress: '100%' },
@@ -10,13 +11,14 @@ const courses = [
 ];
 
 const CompletedLearningSection: React.FC = () => {
+  const { t } = useTranslation();
   const [showMore, setShowMore] = useState(false);
   const visibleCourses = showMore ? courses : courses.slice(0, 4);
 
   return (
     <section className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-bold text-slate-900 dark:text-white">Bài học đã hoàn thành</h3>
+        <h3 className="text-lg font-bold text-slate-900 dark:text-white">{t('dashboard.completed_learning')}</h3>
         {courses.length > 4 && (
           <button 
             onClick={() => setShowMore(!showMore)}

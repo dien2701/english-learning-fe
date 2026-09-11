@@ -1,0 +1,44 @@
+{
+  "header": {
+    "language": "Language",
+    "theme": "Theme",
+    "theme_light": "Light",
+    "theme_dark": "Dark",
+    "notifications": "Notifications",
+    "mark_all_read": "Mark all as read",
+    "profile": "Profile",
+    "logout": "Logout",
+    "student": "Student",
+    "official_student": "Official Student"
+  },
+  "sidebar": {
+    "learning_management": "Learning & Management",
+    "dashboard": "Dashboard",
+    "flashcard": "Flashcards",
+    "writing": "Writing",
+    "listening": "Listening",
+    "exam": "Exams",
+    "statistics": "Statistics",
+    "recommendation": "Recommendations",
+    "interaction_system": "Interaction & System",
+    "chat": "Chat",
+    "settings": "Profile & Settings"
+  },
+  "dashboard": {
+    "welcome": "Welcome back",
+    "continue_learning": "Continue Learning",
+    "completed_learning": "Completed",
+    "learning_chart": "Learning Statistics"
+  },
+  "footer": {
+    "description": "An AI-powered platform to optimize your learning path and comprehensively improve your English skills.",
+    "support": "Learner Support",
+    "policies": "Policies",
+    "privacy_policy": "Privacy Policy",
+    "terms_of_use": "Terms of Use",
+    "learning_rules": "Learning Rules & Certificates",
+    "contact": "Contact",
+    "support_center": "Support Center",
+    "send_feedback": "Send Feedback"
+  }
+}

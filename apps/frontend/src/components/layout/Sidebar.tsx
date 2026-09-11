@@ -1,7 +1,9 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export const Sidebar: React.FC<{ isOpen?: boolean }> = ({ isOpen }) => {
+  const { t } = useTranslation();
   const getNavClass = ({ isActive }: { isActive: boolean }) => 
     `nav-item flex items-center px-3 py-2.5 mx-3 rounded-lg text-sm transition-all duration-300 group cursor-pointer ${
       isActive 
@@ -29,90 +31,90 @@ export const Sidebar: React.FC<{ isOpen?: boolean }> = ({ isOpen }) => {
     >
       <nav className="flex-1 py-4 overflow-y-auto overflow-x-hidden flex flex-col gap-1">
         <div className={`nav-category px-6 py-1.5 text-[11px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider transition-all duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 h-0 overflow-hidden py-0'}`}>
-          Học tập & Quản lý
+          {t('sidebar.learning_management')}
         </div>
         
-        <NavLink to="/dashboard" className={getNavClass} title="Dashboard">
+        <NavLink to="/dashboard" className={getNavClass} title={t('sidebar.dashboard')}>
           {({ isActive }) => (
             <>
               <span className={getIconClass(isActive)}>grid_view</span>
-              {renderNavText("Dashboard")}
+              {renderNavText(t('sidebar.dashboard'))}
             </>
           )}
         </NavLink>
         
-        <NavLink to="/flashcard" className={getNavClass} title="Flashcard">
+        <NavLink to="/flashcard" className={getNavClass} title={t('sidebar.flashcard')}>
           {({ isActive }) => (
             <>
               <span className={getIconClass(isActive)}>style</span>
-              {renderNavText("Flashcard")}
+              {renderNavText(t('sidebar.flashcard'))}
             </>
           )}
         </NavLink>
 
-        <NavLink to="/writing" className={getNavClass} title="Luyện viết">
+        <NavLink to="/writing" className={getNavClass} title={t('sidebar.writing')}>
           {({ isActive }) => (
             <>
               <span className={getIconClass(isActive)}>edit_note</span>
-              {renderNavText("Luyện viết")}
+              {renderNavText(t('sidebar.writing'))}
             </>
           )}
         </NavLink>
         
-        <NavLink to="/listening" className={getNavClass} title="Luyện nghe">
+        <NavLink to="/listening" className={getNavClass} title={t('sidebar.listening')}>
           {({ isActive }) => (
             <>
               <span className={getIconClass(isActive)}>headphones</span>
-              {renderNavText("Luyện nghe")}
+              {renderNavText(t('sidebar.listening'))}
             </>
           )}
         </NavLink>
         
-        <NavLink to="/exam" className={getNavClass} title="Bài kiểm tra">
+        <NavLink to="/exam" className={getNavClass} title={t('sidebar.exam')}>
           {({ isActive }) => (
             <>
               <span className={getIconClass(isActive)}>quiz</span>
-              {renderNavText("Bài kiểm tra")}
+              {renderNavText(t('sidebar.exam'))}
             </>
           )}
         </NavLink>
 
-        <NavLink to="/statistics" className={getNavClass} title="Thống kê">
+        <NavLink to="/statistics" className={getNavClass} title={t('sidebar.statistics')}>
           {({ isActive }) => (
             <>
               <span className={getIconClass(isActive)}>bar_chart</span>
-              {renderNavText("Thống kê")}
+              {renderNavText(t('sidebar.statistics'))}
             </>
           )}
         </NavLink>
 
-        <NavLink to="/recommendation" className={getNavClass} title="Gợi ý học tập">
+        <NavLink to="/recommendation" className={getNavClass} title={t('sidebar.recommendation')}>
           {({ isActive }) => (
             <>
               <span className={getIconClass(isActive)}>auto_awesome</span>
-              {renderNavText("Gợi ý học tập")}
+              {renderNavText(t('sidebar.recommendation'))}
             </>
           )}
         </NavLink>
         
         <div className={`nav-category px-6 pt-4 pb-1.5 text-[11px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider transition-all duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 h-0 overflow-hidden py-0 pt-0'}`}>
-          Tương tác & Hệ thống
+          {t('sidebar.interaction_system')}
         </div>
         
-        <NavLink to="/chat" className={getNavClass} title="Chat">
+        <NavLink to="/chat" className={getNavClass} title={t('sidebar.chat')}>
           {({ isActive }) => (
             <>
               <span className={getIconClass(isActive)}>forum</span>
-              {renderNavText("Chat")}
+              {renderNavText(t('sidebar.chat'))}
             </>
           )}
         </NavLink>
 
-        <NavLink to="/settings" className={getNavClass} title="Hồ sơ & Cài đặt">
+        <NavLink to="/settings" className={getNavClass} title={t('sidebar.settings')}>
           {({ isActive }) => (
             <>
               <span className={getIconClass(isActive)}>manage_accounts</span>
-              {renderNavText("Hồ sơ & Cài đặt")}
+              {renderNavText(t('sidebar.settings'))}
             </>
           )}
         </NavLink>
